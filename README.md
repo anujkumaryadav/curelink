@@ -1,4 +1,4 @@
-# 🎤 Spell Bee Voice Bot
+# 🎤 Disha Bot
 
 A voice-powered spelling bee game built with TypeScript, Next.js, and browser Web Speech API. Practice your spelling skills with an AI-powered bot that presents words and validates your spelling in real-time!
 
