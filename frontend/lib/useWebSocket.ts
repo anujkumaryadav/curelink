@@ -40,12 +40,12 @@ export function useWebSocket({
 
       try {
         const wsUrl = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:7860";
-        console.log("🔌 Connecting to WebSocket:", wsUrl);
+        console.log("Connecting to WebSocket:", wsUrl);
         const ws = new WebSocket(wsUrl);
         wsRef.current = ws;
 
         ws.onopen = () => {
-          console.log("✅ WebSocket connected");
+          console.log("WebSocket connected");
           setIsConnected(true);
           setError(null);
 
@@ -60,7 +60,7 @@ export function useWebSocket({
         ws.onmessage = (event) => {
           try {
             const message: BotMessage = JSON.parse(event.data);
-            console.log("📨 Received:", message.type);
+            console.log("Received:", message.type);
 
             if (message.gameState && onGameStateUpdateRef.current) {
               onGameStateUpdateRef.current(message.gameState);
@@ -80,14 +80,14 @@ export function useWebSocket({
         };
 
         ws.onclose = (event) => {
-          console.log("🔌 WebSocket closed", event.code);
+          console.log("WebSocket closed", event.code);
           setIsConnected(false);
           wsRef.current = null;
 
           if (isMountedRef.current && event.code !== 1000) {
-            console.log("⏳ Will reconnect in 3 seconds...");
+            console.log("Will reconnect in 3 seconds...");
             reconnectTimeoutRef.current = setTimeout(() => {
-              console.log("🔄 Reconnecting...");
+              console.log("Reconnecting...");
               connect();
             }, 3000);
           }
@@ -101,7 +101,7 @@ export function useWebSocket({
     connect();
 
     return () => {
-      console.log("🧹 Cleaning up WebSocket");
+      console.log("Cleaning up WebSocket");
       isMountedRef.current = false;
       
       if (reconnectTimeoutRef.current) {

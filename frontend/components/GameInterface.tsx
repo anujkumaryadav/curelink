@@ -266,7 +266,7 @@ export default function GameInterface({
                   <button
                     onClick={startGame}
                     disabled={!isConnected}
-                    className="flex-1 bg-[#432C20] text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] flex items-center justify-center gap-3"
+                    className="flex-1 bg-[#432C20] text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                     
                   >
                     Start Learning

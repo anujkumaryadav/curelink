@@ -34,8 +34,7 @@ app.post("/api/session/create", async (req, res) => {
   try {
     const sessionId = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     
-    console.log("✅ Session created:", sessionId);
-    console.log(USE_DEMO_MODE ? "🎮 Using Demo Mode" : "🤖 Using Gemini");
+    console.log("Session created:", sessionId);
 
     res.json({
       sessionId,
@@ -43,7 +42,7 @@ app.post("/api/session/create", async (req, res) => {
       demoMode: USE_DEMO_MODE,
     });
   } catch (error: any) {
-    console.error("❌ Error creating session:", error.message || error);
+    console.error("Error creating session:", error.message || error);
     res.status(500).json({ 
       error: "Failed to create session",
       details: error.message || "Unknown error"
@@ -96,10 +95,10 @@ wss.on("connection", (ws: WebSocket) => {
           sessionId = message.sessionId;
           
           if (USE_DEMO_MODE) {
-            console.log("🎮 Initializing Demo Bot");
+            console.log("Initializing Demo Bot");
             sessionBot = new DemoBot();
           } else {
-            console.log("🤖 Initializing Gemini Bot");
+            console.log("Initializing Gemini Bot");
             sessionBot = new SpellBeeBot({
               geminiApiKey: GEMINI_API_KEY!,
             });
@@ -136,18 +135,18 @@ wss.on("connection", (ws: WebSocket) => {
                   gameState: sessionBot!.getGameState(),
                 })
               );
-            }, 2000);
+            }, 1000);
           }
           break;
 
         case "user_speech":
-          console.log("📝 Received user speech:", message.text);
+          console.log("Received user speech:", message.text);
           if (sessionBot) {
             try {
               const response = await sessionBot.handleUserSpeech(message.text);
 
               if (response) {
-                console.log("🤖 Bot response:", response);
+                console.log("Bot response:", response);
                 ws.send(
                   JSON.stringify({
                     type: "bot_speech",
@@ -157,13 +156,13 @@ wss.on("connection", (ws: WebSocket) => {
                 );
               }
             } catch (error) {
-              console.error("❌ Error handling user speech:", error);
+              console.error("Error handling user speech:", error);
             }
           }
           break;
 
         case "user_speech_end":
-          console.log("🎤 User finished speaking");
+          console.log("User finished speaking");
           if (sessionBot) {
             try {
               const response = await sessionBot.handleUserTurnEnd();
@@ -180,7 +179,7 @@ wss.on("connection", (ws: WebSocket) => {
                 );
               }
             } catch (error) {
-              console.error("❌ Error handling turn end:", error);
+              console.error("Error handling turn end:", error);
             }
           }
           break;
@@ -250,24 +249,7 @@ wss.on("connection", (ws: WebSocket) => {
 
 server.listen(PORT, () => {
   console.log(`\n${"=".repeat(60)}`);
-  console.log(`🎤 Disha Bot Server Started`);
-  console.log(`${"=".repeat(60)}`);
-  console.log(`📡 Server:     http://localhost:${PORT}`);
-  console.log(`🔌 WebSocket:  ws://localhost:${PORT}`);
-  console.log(`💚 Health:     http://localhost:${PORT}/health`);
-  console.log(`${"=".repeat(60)}`);
-  
-  console.log(`\n🔑 API Keys Status:`);
-  console.log(`   Gemini:    ${GEMINI_API_KEY && GEMINI_API_KEY !== "your_gemini_api_key_here" ? "✅ Set" : "❌ Not set"}`);
-  
-  if (USE_DEMO_MODE) {
-    console.log(`\n🎮 DEMO MODE ENABLED`);
-    console.log(`   Running without Gemini - using pre-written responses`);
-    console.log(`   Perfect for testing and demonstrations!`);
-    console.log(`   To use Gemini: Add valid API key to backend/.env\n`);
-  } else {
-    console.log(`\n✅ Gemini Mode - Using gemini-2.5-flash model\n`);
-  }
+  console.log(`Disha Bot Server Started`);
 });
 
 process.on("SIGTERM", () => {

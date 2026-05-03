@@ -75,14 +75,14 @@ export default function Home() {
           </div>
           
           <p className="text-sm md:text-lg text-[#94857E] max-w-2xl mx-auto">
-            Master spelling through interactive voice conversations with advanced AI technology
+            Master spelling through interactive voice conversations.
           </p>
         </div>
 
                 <button
             onClick={handleStartGame}
             disabled={isCreating}
-            className="group w-full text-offwhite font-bold py-3 px-5 md:py-4 md:px-0 rounded-xl md:rounded-2xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 relative overflow-hidden"
+            className="group w-full text-offwhite font-bold py-3 px-5 md:py-4 md:px-0 rounded-xl md:rounded-2xl hover:shadow-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 relative overflow-hidden"
             style={{ background: 'linear-gradient(135deg, #E08060, #C1523A)' }}
           >
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" 

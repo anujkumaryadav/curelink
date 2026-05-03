@@ -50,16 +50,13 @@ export class DemoBot {
     this.spellingValidator.startCapture();
 
     const sentences: { [key: string]: string } = {
-      apple: "I ate a delicious red apple for lunch.",
       banana: "The monkey loves to eat a yellow banana.",
-      cat: "My pet cat likes to sleep in the sun.",
-      dog: "The friendly dog wagged its tail.",
-      elephant: "The elephant has a very long trunk.",
-      flower: "The flower smells wonderful.",
-      garden: "We planted vegetables in the garden.",
       happy: "She felt happy on her birthday.",
-      island: "We visited a tropical island.",
-      jungle: "The jungle is full of wild animals.",
+      disha: "Disha is a wonderful learning assistant.",
+      anuj: "Anuj is working on an exciting project.",
+      prem: "Prem enjoys helping others learn.",
+      vishnu: "Vishnu is part of our amazing team.",
+      curelink: "Curelink connects healthcare professionals.",
     };
 
     const sentence = sentences[word.toLowerCase()] || `Here's a word you might know: ${word}.`;
@@ -95,7 +92,7 @@ export class DemoBot {
     console.log("🔍 Validation result:", result);
 
     if (!result) {
-      console.log("❌ No result - user spelling was empty");
+      console.log("No result - user spelling was empty");
       return "Hmm, I didn't quite catch that. Could you spell the word again? Remember to say each letter clearly!";
     }
 
@@ -111,7 +108,6 @@ export class DemoBot {
       ];
       
       const response = praise[Math.floor(Math.random() * praise.length)];
-      console.log("✅ Correct spelling! Score:", this.gameState.score);
       return `${response} Your score is now ${this.gameState.score} points! Ready for the next word?`;
     } else {
       const encouragement = [
@@ -122,7 +118,7 @@ export class DemoBot {
       ];
       
       const response = encouragement[Math.floor(Math.random() * encouragement.length)];
-      console.log("❌ Incorrect spelling. User said:", result.userSpelling, "Correct:", this.gameState.currentWord);
+      console.log("Incorrect spelling. User said:", result.userSpelling, "Correct:", this.gameState.currentWord);
       return `${response} The correct spelling is ${this.gameState.currentWord.split('').join(', ')}. Your score is ${this.gameState.score} points. Want to try another word?`;
     }
   }

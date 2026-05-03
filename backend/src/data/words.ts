@@ -1,11 +1,11 @@
 export const SPELL_BEE_WORDS: string[] = [
-  "apple", "banana", "cat", "dog", "elephant",
-  "flower", "garden", "happy", "island", "jungle",
-  "kitten", "lemon", "monkey", "nature", "orange",
-  "pencil", "queen", "rabbit", "sunset", "tiger",
-  "water", "yellow", "zebra", "book", "chair",
-  "desk", "fish", "grape", "house", "ice",
-  "jump", "kite", "lamp", "moon", "nest"
+  "banana",
+  "happy",
+  "disha",
+  "anuj",
+  "prem",
+  "vishnu",
+  "curelink"
 ];
 
 export function getWords(): string[] {

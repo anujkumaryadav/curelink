@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Spell Bot - Voice Spelling Game",
+  title: "Disha - Voice Spelling Game",
   description: "Practice your spelling skills with an AI-powered voice bot",
 };
 

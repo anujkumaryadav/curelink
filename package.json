@@ -1,7 +1,7 @@
 {
   "name": "spell-bee-bot",
   "version": "1.0.0",
-  "description": "Voice-based Spell Bee bot using Pipecat",
+  "description": "Voice-based Spell Bee bot using Google Gemini and Web Speech API",
   "private": true,
   "workspaces": [
     "backend",
