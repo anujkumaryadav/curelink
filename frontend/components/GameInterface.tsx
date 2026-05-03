@@ -28,8 +28,10 @@ export default function GameInterface({
   const [botMessages, setBotMessages] = useState<string[]>([]);
   const [isListening, setIsListening] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
+  const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   const { isConnected, sendMessage } = useWebSocket({
     sessionId,
@@ -40,12 +42,53 @@ export default function GameInterface({
   function handleBotMessage(message: BotMessage) {
     if (message.type === "bot_speech" && message.text) {
       setBotMessages((prev) => [...prev, message.text!]);
+      speakText(message.text);
     }
 
     if (message.type === "ready") {
       console.log("Bot is ready");
     }
   }
+
+  const speakText = (text: string) => {
+    if (!('speechSynthesis' in window)) {
+      console.error("Text-to-speech not supported in this browser");
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9; 
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    utterance.onstart = () => {
+      setIsSpeaking(true);
+      console.log("🔊 Bot speaking:", text);
+    };
+
+    utterance.onend = () => {
+      setIsSpeaking(false);
+      console.log("🔇 Bot finished speaking");
+    };
+
+    utterance.onerror = (event) => {
+      console.error("Speech synthesis error:", event);
+      setIsSpeaking(false);
+    };
+
+    speechSynthesisRef.current = utterance;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const stopSpeaking = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
+  };
 
   const startListening = () => {
     if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
@@ -116,6 +159,7 @@ export default function GameInterface({
   };
 
   const resetGame = () => {
+    stopSpeaking();
     sendMessage({ type: "reset_game" });
     setBotMessages([]);
     setGameStarted(false);
@@ -131,6 +175,9 @@ export default function GameInterface({
         try {
           recognitionRef.current.stop();
         } catch (e) {}
+      }
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
       }
     };
   }, []);
@@ -161,11 +208,21 @@ export default function GameInterface({
               <div className="rounded-2xl overflow-hidden backdrop-blur-sm border border-apricot p-8 md:p-7" 
                    style={{ background: 'rgba(242, 206, 173, 0.3)' }}>
                 <div className="text-center mb-7">
-                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl shadow-xl" 
+                  <div className={`inline-flex items-center justify-center w-20 h-20 rounded-3xl shadow-xl transition-all duration-300 ${isSpeaking ? 'animate-pulse scale-110' : ''}`}
                        style={{ background: 'linear-gradient(135deg, #E08060, #C1523A)' }}>
                     <FaMicrophone className="text-white" size={30}/>
                   </div>
-                
+                  {isSpeaking && (
+                    <div className="mt-4">
+                      <p className="text-terracotta font-bold text-lg mb-2">🔊 Bot is speaking...</p>
+                      <button
+                        onClick={stopSpeaking}
+                        className="text-sm text-espresso hover:text-terracotta underline"
+                      >
+                        Stop speaking
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {gameStarted && (
